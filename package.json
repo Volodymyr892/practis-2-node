@@ -5,8 +5,8 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "Volodymyr Shevchuk <sevcukvolodimir896@gmail.com>",
@@ -15,9 +15,13 @@
     "@eslint/js": "^9.9.1",
     "eslint": "^9.9.1",
     "globals": "^15.9.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "pino-pretty": "^11.2.2"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pino-http": "^10.3.0"
   }
 }
