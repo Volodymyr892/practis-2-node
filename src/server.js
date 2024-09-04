@@ -1,10 +1,7 @@
 import express from "express"; 
 import  pino  from "pino-http";
 import cors from "cors";
-import { getAllStudents,getStudentsById } from "./services/students.js";
-
-
-
+import { getAllStudents, getStudentsById } from "./services/students.js";
 
 import { env } from './utils/env.js';
 
@@ -34,8 +31,8 @@ export const startServer = () => {
                 data: students,
             });
         });
-        app.get('/students/:studentId', async (req, res, next) => {
-            const ObjectId = req.params.ObjectId;
+        app.get('/students/:ObjectId', async (req, res, next) => {
+            const {ObjectId} = req.params;
             const student = await getStudentsById(ObjectId);
             if (!student) {
                 res.status(404).json({
@@ -64,5 +61,5 @@ export const startServer = () => {
         app.listen(PORT, ()=> {
             console.log(`Server is running on port ${PORT}`);
         });
-
+ 
     };
