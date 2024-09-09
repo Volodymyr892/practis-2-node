@@ -32,7 +32,7 @@ export const createStudentController = async (req,res)=>{
     const student = await createStudent(req.body); 
 
     res.status(201).json({
-        status: '200',
+        status: '201',
         message: `Successfully created a student!`,
         data: student,
     });
