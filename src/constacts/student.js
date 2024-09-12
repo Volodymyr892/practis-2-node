@@ -1,0 +1,1 @@
+export const generList = ['male', 'female', 'other'];
