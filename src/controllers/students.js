@@ -1,12 +1,17 @@
 import { createStudent, deleteStudent, getAllStudents, getStudentsById, updateStudent } from "../services/students.js";
 import createHttpError from "http-errors";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
+import { parseSortParams } from "../utils/parseSortParams.js";
 
 export const getStudentsController = async( reg, res, next)=> {
-        const {page, perPage} = parsePaginationParams(reg.data);
+        const {page, perPage} = parsePaginationParams(reg.query);
+        const {sortBy, sortOrder} = parseSortParams(reg.query);
+
         const students = await getAllStudents({
             page,
             perPage,
+            sortBy,
+            sortOrder,
         });
 
         res.json({
