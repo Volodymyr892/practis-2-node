@@ -7,7 +7,7 @@ import { parseFilterParams } from "../utils/parseFilterParams.js";
 export const getStudentsController = async( reg, res, next)=> {
         const {page, perPage} = parsePaginationParams(reg.query);
         const {sortBy, sortOrder} = parseSortParams(reg.query);
-        const filter = parseFilterParams(reg.query);
+        const {filter} = parseFilterParams(reg.query);
 
         const students = await getAllStudents({
             page,
@@ -35,7 +35,7 @@ export const getStudentByIdController = async (req, res, next) => {
             status: 200,
             message: `Successfully found student with id ${ObjectId}!`,
             data: student,
-          });
+            });
         next();
 };
 
@@ -66,7 +66,7 @@ export const upsertStudentController = async(req,res, next)=>{
 
     const result = await updateStudent(ObjectId, req.body, {
         upsert: true,
-      });
+        });
 
     if(!result){
         next(createHttpError(404, 'Student not found'));
