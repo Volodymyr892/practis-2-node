@@ -13,7 +13,7 @@ export const registerUsercontroller = async(req,res)=>{
     });
 };
 export const loginUserController = async(req, res)=>{
-    const session=  await loginUser(req.body);
+    const session =  await loginUser(req.body);
 
     res.cookie( 'refreshToken', session.refreshToken, {
         httpOnly: true,
@@ -36,7 +36,6 @@ export const logoutUserController = async (req, res) => {
     if (req.cookies.sessionId) {
       await logoutUser(req.cookies.sessionId);
     }
-    console.log('Clearing cookies:', req.cookies);
   
     res.clearCookie('sessionId', {path: '/', httpOnly: true,});
     res.clearCookie('refreshToken', {path: '/', });
