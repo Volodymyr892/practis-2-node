@@ -9,7 +9,7 @@ import { handleSaveError, setUpdateoptions } from "./hooks.js";
             ref: 'users',
             required: true,
         },
-        accesstoken: {
+        accessToken: {
             type: String,
             required: true,
         }, 

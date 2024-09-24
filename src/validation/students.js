@@ -8,6 +8,7 @@ export const createStudentSchema = Joi.object({
     gender: Joi.string().valid(...generList).required(),
     avgMark: Joi.number().min(2).max(12).required(),
     onDuty: Joi.boolean(),
+    parentId: Joi.string().required(),
 });
 export const updateStudentSchema = Joi.object({
     name: Joi.string().min(3).max(30),
@@ -16,4 +17,5 @@ export const updateStudentSchema = Joi.object({
     gender: Joi.string().valid(...generList),
     avgMark: Joi.number().min(2).max(12),
     onDuty: Joi.boolean(),
+    parentId: Joi.string(),
   });

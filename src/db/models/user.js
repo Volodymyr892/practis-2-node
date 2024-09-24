@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";  
 import { emailRegexp } from "../../constacts/user.js";
 import { handleSaveError, setUpdateoptions } from "./hooks.js";
+import { ROLES } from "../../constacts/index.js";
 const userSchema = new Schema (
     {
         name: {
@@ -17,6 +18,11 @@ const userSchema = new Schema (
             type:String, 
             required:true
         },
+        role:{
+            type:String,
+            enum: [ROLES.TEACHER, ROLES.PARENT],
+            default: ROLES.PARENT,
+        }
     },
     {
         timestamps: true,
