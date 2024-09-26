@@ -2,11 +2,16 @@ import bcrypt from "bcrypt";
 import {randomBytes} from 'crypto';
 import jwt from "jsonwebtoken";
 import createHttpError from "http-errors";
+import handlebars from "handlebars";
+import path from "node:path";
+import fs from "node:fs/promises";
+
 import { UserCollection } from "../db/models/user.js";
 import { sessionColection } from "../db/models/session.js";
 import { FIFTEEN_MINUTES, ONE_DAY, SMTP } from "../constacts/index.js";
 import {env} from "../utils/env.js";
 import { sendEmail } from "../utils/sendMail.js";
+import { TEMPLATES_DIR } from "../constacts/index.js";
 
 
 export const registerUser = async(payload)=>{
@@ -111,10 +116,51 @@ export const requestResetToken = async(email)=>{
         }
     );
 
+    const resetPasswordTemplatePath = path.join(
+        TEMPLATES_DIR, 
+        'reset-password-email.html',
+    );
+
+    const templateSource=(
+        await fs.readFile(resetPasswordTemplatePath)).toString();
+
+    const template = handlebars.compile(templateSource);
+    const html = template({
+        name: user.name,
+        link:`${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    });
+
     await sendEmail({
         from: env(SMTP.SMTP_FROM),
         to: email,
         subject:'Reset your password',
-        html:`<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+        html,
     });
+};
+
+export const resetPassword = async(payload)=>{
+    let entries;
+
+    try {
+        entries = jwt.verify(payload.token, env('JWT_SECRET'));
+    } catch (error) {
+        if(error instanceof Error) throw createHttpError(401, error.message);
+        throw error;
+    }
+
+    const user = await UserCollection.findOne({
+        email: entries.email,
+        _id: entries.sub,
+    });
+    if(!user) {
+        createHttpError(404, 'User not found');
+    }
+
+    const ecryptedpassword =  await bcrypt.hash(payload.password, 10);
+
+    await UserCollection.updateOne(
+        {_id:user._id},
+        {password:ecryptedpassword},
+    );
+
 };
