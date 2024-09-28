@@ -29,7 +29,7 @@ router.get('/:ObjectId',
     ctrlWrapper(getStudentByIdController));
 
 router.post(
-        "/register",
+        "/",
         checkRoles(ROLES.TEACHER),
         validateBody(createStudentSchema),
         ctrlWrapper(createStudentController));

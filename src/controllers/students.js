@@ -7,7 +7,7 @@ import { parseFilterParams } from "../utils/parseFilterParams.js";
 export const getStudentsController = async( reg, res, next)=> {
         const {page, perPage} = parsePaginationParams(reg.query);
         const {sortBy, sortOrder} = parseSortParams(reg.query);
-        const {filter} = parseFilterParams(reg.query);
+        const filter= parseFilterParams(reg.query);
 
         const students = await getAllStudents({
             page,
@@ -36,7 +36,7 @@ export const getStudentByIdController = async (req, res, next) => {
             message: `Successfully found student with id ${ObjectId}!`,
             data: student,
             });
-        next();
+        // next();
 };
 
 export const createStudentController = async (req,res)=>{

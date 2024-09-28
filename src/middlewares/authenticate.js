@@ -22,7 +22,7 @@ export const authenticate = async(req,res, next)=>{
     });
 
     if(!session){
-        next(createHttpError(401, 'Session not found'));
+        return next(createHttpError(401, 'Session not found'));
     }
 
     const isSessionTokenExpired = 
@@ -35,8 +35,7 @@ export const authenticate = async(req,res, next)=>{
     const user = await UserCollection.findById(session.userId); 
 
     if(!user){
-        next(createHttpError(401));
-        return;
+        return next(createHttpError(401));
     }
     req.user = user;
     next();
